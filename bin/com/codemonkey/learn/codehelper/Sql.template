@@ -1,0 +1,14 @@
+
+=============== sql start ======================== 
+select
+<% 
+def size = cRows.size() -1
+for(i in 0..size) {
+	def d = i == size?'':','
+	def s = cRows.get(i).columnName
+	def j = cRows.get(i).jColumnName
+	out.println "       t.$s  $j$d"
+}
+%>from ${sTableName} t
+=============== sql end   ========================
+

@@ -1,0 +1,86 @@
+package 自己引入;
+
+import java.io.Serializable;
+<%
+for(row in cRows) {
+	if(row.jImport){
+out.print "import $row.jImport;"
+	}	
+}	
+%>
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import com.jeedev.jfast.core.data.BaseEntity;
+import com.jeedev.jfast.core.jpa.annotation.EnableQueryCache;
+
+/**
+ * @类名称 ${sTableName}.java
+ * @类描述 <pre>$tableComments</pre>
+ * @版本 1.00
+ *
+ * @修改记录
+ * <pre>
+ *     版本                       修改人 		修改日期 		 修改内容描述
+ *     ----------------------------------------------
+ *     1.00 	           
+ *     ----------------------------------------------
+ * </pre>
+ */
+@Entity
+@Table(name = "${sTableName}")
+@EnableQueryCache
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@SequenceGenerator(name="seq",allocationSize=1,initialValue=1,sequenceName="SEQ_${sTableName}")
+public class ${jTableName} extends BaseEntity<Integer> implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+<% 
+def drop = ['id','createTime','updateTime','createUser','updateUser']
+
+//字段属性
+for(row in cRows) {
+	if(drop.contains(row.jColumnName)){
+		continue
+	}
+	def charStr = row.dataType == 'CHAR'?", columnDefinition = \"char\"":''
+	
+	out.print """ 
+	/**
+	 * $row.comments
+	 */
+	@Column(name = "$row.columnName" $charStr)
+	private $row.jDataType $row.jColumnName;
+	"""
+}
+
+//getter setter
+for(row in cRows) {
+	if(drop.contains(row.jColumnName)){
+		continue
+	}
+	def u = row.jColumnName
+	u = u.replaceFirst(/[a-z]/, {
+		it[0].toUpperCase()
+	})
+	
+	out.print """
+	public $row.jDataType get$u() {
+		return $row.jColumnName;
+	}
+	public void set$u($row.jDataType $row.jColumnName) {
+		this.$row.jColumnName = $row.jColumnName;
+	}
+	"""
+}
+%> 
+}
+
+
+
+
