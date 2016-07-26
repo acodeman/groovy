@@ -11,7 +11,6 @@ class BoUtils extends Script {
 	}
 	def config = {
 		def config = [:]
-		config.url = "jdbc:oracle:thin:@172.19.0.236:1521:orcl"
 		//params.url = "jdbc:oracle:thin:@localhost:1521:orcl"
 		config.user = 'irbs'
 		config.pwd = 'irbs'
@@ -82,7 +81,7 @@ class BoUtils extends Script {
 				case 'CHAR':
 						t.type = 'String'; break
 				default :
-					t.type = 'δ֪����'
+					t.type = 'Î´ÖªÀàÐÍ'
 			}
 			return t
 		}
