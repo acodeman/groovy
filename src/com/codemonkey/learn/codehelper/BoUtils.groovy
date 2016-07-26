@@ -11,7 +11,7 @@ class BoUtils extends Script {
 	}
 	def config = {
 		def config = [:]
-		//params.url = "jdbc:oracle:thin:@localhost:1521:orcl"
+		params.url = "jdbc:oracle:thin:@localhost:1521:orcl"
 		config.user = 'irbs'
 		config.pwd = 'irbs'
 		config.tableName = 'IRB_CUST_GROUP_SUB_RELA'
